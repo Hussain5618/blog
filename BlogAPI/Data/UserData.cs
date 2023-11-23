@@ -26,6 +26,15 @@ namespace BlogAPI.Data
             _db.SaveChanges();
             return GetUser(user.Email!);
         }
+        public User GetUser(long? userId)
+{
+    var user = _db.Users.Where(x => x.Id == userId).FirstOrDefault();
+    if (user is null)
+    {
+        throw new KeyNotFoundException("User not found");
+    }
+    return user;
+}
         public User? ValidateUser(User user)
         {
             var resUser = _db.Users.Where(x => x.Email == user.Email).FirstOrDefault();
